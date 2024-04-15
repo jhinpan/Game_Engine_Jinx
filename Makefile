@@ -10,7 +10,7 @@ CUR_DIR = $(shell pwd)
 INCLUDES = -I$(CUR_DIR)/glm -I$(CUR_DIR)/rapidjson
 INCLUDES += -I$(CUR_DIR)/Lua -I$(CUR_DIR)/LuaBridge
 INCLUDES += -I$(CUR_DIR)/box2d/include -I$(CUR_DIR)/box2d/include/box2d -I$(CUR_DIR)/box2d -I$(CUR_DIR)/box2d/dynamics
-INCLUDE += -I$(CUR_DIR)/emsdk/upstream/emscripten/cache/sysroot/include
+INCLUDES += -I$(CUR_DIR)/emsdk/upstream/emscripten/cache/sysroot/include
 
 # Compiler flags
 CXXFLAGS = -std=c++17 -Wall -Wextra -O2 $(INCLUDES)
@@ -25,14 +25,13 @@ endif
 EM_FLAGS = -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s USE_SDL_TTF=2 -s USE_SDL_MIXER=2
 EM_FLAGS += -s WASM=1 --preload-file resources
 EM_FLAGS += -s ALLOW_MEMORY_GROWTH=1
+EM_FLAGS += --shell-file $(CUR_DIR)/minimal_shell.html
 
 # Now in your compiler flags or linker flags, you just add $(EM_FLAGS)
 CXXFLAGS += $(EM_FLAGS)
 
 # Assuming the Lua library is in $(CUR_DIR)/Lua
 LDFLAGS += -L$(CUR_DIR)/Lua -llua $(EM_FLAGS)
-
-
 
 # Name of the final executable
 EXECUTABLE = game_engine_web.html
